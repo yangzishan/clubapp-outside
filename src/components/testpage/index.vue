@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">test page lee</div>
+  <div class="wrapper">test page</div>
 </template>
 
 <script>
