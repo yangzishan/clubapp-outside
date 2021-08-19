@@ -1,21 +1,31 @@
 const living = {
-  path: "/test",
-  name: "test",
-  redirect: "/test",
+  path: "/",
+  name: "knowledge",
+  redirect: "/knowledge",
   component: () => import("@/base/index.vue"),
   meta: {
     index: 2
   },
   children: [
     {
-      path: "/test",
-      name: "test",
-      component: () => import("@/components/testpage/index.vue"),
+      path: "/knowledge",
+      name: "knowledge",
+      component: () => import("@/components/knowledge/index.vue"),
       meta: {
         keepAlive: true,
         index: 3
       }
+    },
+    {
+      path: "/list",
+      name: "list",
+      component: () => import("@/components/listPage/index.vue"),
+      meta: {
+        keepAlive: true,
+        index: 4
+      }
     }
+
   ]
 };
 export default living;

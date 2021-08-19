@@ -160,10 +160,10 @@ axios.interceptors.request.use(
       // 'k': '1b9b5a3de05ea404f3ba03a77fbfc8e8',
       // 'u': '13d20943730b48471e24aa7e9c772334',
       // 企业test
-      // k: "33385dc6fbe07973d006564b075d1ab4",
-      // u: "BEBA7CE2-EC72-482F-BAC9-6DB5A8BADA97",  
-      u: util.getCookie("u"),
-      k: util.getCookie("k"),
+       k: "45259b36e6e0b6a7720ebdbf28ecd958",
+       u: "6d965efe4cb09a048967739d6fd16a29",  
+      //u: util.getCookie("u"),
+      //k: util.getCookie("k"),
       "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
     };
     for (const key in headers) {

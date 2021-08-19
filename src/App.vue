@@ -115,7 +115,7 @@ export default {
       util.delCookie("k");
       storage.remove("memberInfo");
       storage.remove("UserDep");
-      this.$router.push("/test");
+      this.$router.push("/knowledge");
     }
   },
   methods: {
