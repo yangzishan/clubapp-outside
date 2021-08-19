@@ -127,7 +127,7 @@ export default {
   },
   created() {
     this.headTitle = (this.$route.query.title || '健康知识') // 等传值
-    this.parentId = (this.$route.query.parentId || 1615) // 等传值
+    this.parentId = (this.$route.query.parentId || 0) // 1615 等传值
     this._GetClassChildByInfoParentID();
     this._GetCourseList()
   },
