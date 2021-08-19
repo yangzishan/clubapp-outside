@@ -1,10 +1,10 @@
 <template>
   <div class="nav-list">
-    <p class="li" :class="{on:styleLight == 0}" @click="choseAll">全部</p>
+    <p class="li" :class="{on:styleLight == onlight}" @click="choseAll">全部</p>
     <p class="li" 
       v-for="item in dataList" 
       :key="item.CommonTypeID"
-      @click="handleClass(item)"
+      @click="handleClass(item.CommonTypeID)"
       :class="{on:styleLight == item.CommonTypeID}"
     >
       {{item.Name}}
@@ -21,6 +21,12 @@ export default {
       default() {
         return [];
       }
+    },
+    onlight:{
+      type: Number,
+      default() {
+        return 0;
+      }
     }
   },
   data() {
@@ -31,16 +37,19 @@ export default {
   watch: {},
   computed: {},
   methods: {
-    handleClass(item){
-      this.$emit("choseClass",item)
-      this.styleLight = item.CommonTypeID
+    handleClass(id){
+      this.$emit("choseClass",id)
+      this.styleLight = id
     },
     choseAll(){
-      this.styleLight = 0
-      //this.$emit("choseClass",0)
+      this.styleLight = this.onlight
+      this.$emit("choseClass",this.onlight)
     }
   },
-  created() {},
+  created() {
+    console.log(this.onlight)
+    this.styleLight = this.onlight
+  },
   mounted() {}
 };
 </script>

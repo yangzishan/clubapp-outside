@@ -3,7 +3,7 @@
     <span class="back">
       <img src="@/assets/back.png" />
     </span>
-    <span class="head-title">疾病知识</span>
+    <span class="head-title"> </span>
   </div>
 </template>
 

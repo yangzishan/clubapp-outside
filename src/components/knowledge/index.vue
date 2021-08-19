@@ -9,12 +9,13 @@
         >
           <classlist 
             :dataList="classList"
+            :onlight="parentId"
             @choseClass="choseClass"
           ></classlist>
         </scroll>
       </div>
       <div class="c_right">
-        <sousuo @toSearch="toSearch"></sousuo>
+        <sousuo ref="sousuo" @toSearch="toSearch"></sousuo>
         <scroll
           class="scroll-wrapper"
           ref="scrollWrapper"
@@ -25,6 +26,7 @@
           @scrollToEnd="scrollToEnd"
         >
           <courselist :dataList="courseList"></courselist>
+          <defaultpage :type="tiptype" v-if="courseList.length == 0"></defaultpage>
           <loading v-show="hasMore"></loading>
           <no-more v-if="!hasMore && courseList.length"></no-more>
         </scroll>
@@ -43,6 +45,7 @@ export default {
     NoMore: () => import("@/base/NoMore.vue"),
     scroll: () => import("@/base/Scroll.vue"),
     myHeader: () => import("@/base/Header.vue"),
+    defaultpage: () => import("@/base/DefaultPage.vue"),
     kheader: () => import("./components/header"),
     classlist: () => import("./components/classlist"),
     courselist: () => import("./components/courselist"),
@@ -59,27 +62,16 @@ export default {
       hasMore: false, // 是否还有更多数据
       Timeout: null,
       parentId:0,
-      CommonTypeID: 0,
-      keyword:''
+      courseClassifyID: 0,
+      keyword:'',
+      tiptype: 0,
+      tabclassing: false, //正在切换类
+      searching: false //正在搜索
     };
   },
   watch: {},
   computed: {},
   methods: {
-    toSearch(str){
-      this.keyword = str
-      this.pageIndex = 1
-      this.courseList = []
-      this._GetCourseList()
-    },
-    choseClass(item){
-      //console.log(item.Name)
-      this.CommonTypeID = item.CommonTypeID
-      this.pageIndex = 1
-      this.keyword = ''
-      this.courseList = []
-      this._GetCourseList()
-    },
     async _GetClassChildByInfoParentID() {
       const { Code, Data } = await GetClassChildByInfoParentID({
         parentId: this.parentId
@@ -88,11 +80,34 @@ export default {
         this.classList = Data
       }
     },
+    toSearch(str){
+      this.keyword = str;
+      this.pageIndex = 1;
+      this.courseClassifyID = this.parentId;
+      //this.courseList = []
+      this.searching = true;
+      this._GetCourseList()
+      setTimeout(() => {
+        this.tiptype = 3
+      }, 1000);
+    },
+    choseClass(id){
+      this.courseClassifyID = id;
+      this.pageIndex = 1;
+      this.keyword = '';
+      //this.courseList = []
+      this.tabclassing = true;
+      this._GetCourseList();
+      this.$refs.sousuo.clearWord();
+      setTimeout(() => {
+        this.tiptype = 0
+      }, 1000);
+    },
     async _GetCourseList() {
       const { Code, Data, Count } = await GetCourseList({
         pageIndex: this.pageIndex,
         pageSize: PAGESIZE,
-        CommonTypeID: this.CommonTypeID,
+        courseClassifyID: this.courseClassifyID,
         keyword: this.keyword
       });
       if (Code == OK_CODE) {
@@ -100,8 +115,10 @@ export default {
         Data.forEach(
           item => (item.Img = util._initHeaderImg(item.Img))
         );
-        this.courseList = this.downing ? Data : this.courseList.concat(Data);
+        this.courseList = (this.downing || this.tabclassing || this.searching) ? Data : this.courseList.concat(Data);
         this.downing = false;
+        this.tabclassing = false;
+        this.searching = false;
         this.hasMore = this.courseList.length < Count ? true : false;
       }
     },
@@ -128,6 +145,7 @@ export default {
   created() {
     this.headTitle = (this.$route.query.title || '健康知识') // 等传值
     this.parentId = (this.$route.query.parentId || 0) // 1615 等传值
+    this.courseClassifyID = this.parentId 
     this._GetClassChildByInfoParentID();
     this._GetCourseList()
   },

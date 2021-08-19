@@ -40,7 +40,7 @@ export default {
     padding: .3rem;
     border-bottom:#f1f1f1 solid .01rem;
     .inf{ width: 2.66rem; float: left;
-      .tit{ font-size: .26rem; font-weight: 500; line-height: .38rem;}
+      .tit{ font-size: .26rem; font-weight: 600; line-height: .38rem;}
       .see{color: #848484; font-size: .24rem; position: absolute; left: .3rem; bottom:.3rem;}
     }
     .pic{float: right;  width: 2.2rem; padding: 0 ;
