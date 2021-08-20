@@ -37,6 +37,7 @@
 
 <script>
 import util from "@/common/js/util";
+import {formatImg} from "@/filters/index";
 import { OK_CODE, PULL_NUM, PAGESIZE } from "@/common/js/config";
 import { GetClassChildByInfoParentID, GetCourseList } from "@/api/rj-server";
 export default {
@@ -115,7 +116,7 @@ export default {
       if (Code == OK_CODE) {
         this.$refs.scrollWrapper && this.$refs.scrollWrapper.finishPullDown();
         Data.forEach(
-          item => (item.Img = util._initHeaderImg(item.Img))
+          item => (item.Img = formatImg(item.Img))
         );
         this.courseList = (this.downing || this.tabclassing || this.searching) ? Data : this.courseList.concat(Data);
         this.downing = false;
