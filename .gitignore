@@ -10,6 +10,7 @@ selenium-debug.log
 .history/
 debug.log
 package-lock.json
+yarn.lock
 
 # Editor directories and files
 .idea

@@ -160,10 +160,10 @@ axios.interceptors.request.use(
       // 'k': '1b9b5a3de05ea404f3ba03a77fbfc8e8',
       // 'u': '13d20943730b48471e24aa7e9c772334',
       // 企业test
-       k: "45259b36e6e0b6a7720ebdbf28ecd958",
+       k: "512b25c048bdb09b225d777c8353e0ec",
        u: "6d965efe4cb09a048967739d6fd16a29",  
-      //u: util.getCookie("u"),
-      //k: util.getCookie("k"),
+      // u: util.getCookie("u"),
+      // k: util.getCookie("k"),
       "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
     };
     for (const key in headers) {
