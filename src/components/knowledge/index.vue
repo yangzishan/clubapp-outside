@@ -91,6 +91,9 @@ export default {
       this.searching = true;
       this.defaultpageshow = false;
       this.tiptype = 3;
+      if(this.nextTryAgain){
+        this._GetCourseList();
+      }
     },
     choseClass(id){
       this.courseClassifyID = id;
@@ -147,7 +150,7 @@ export default {
       }
     },
     goBack(){
-      this.$router.push({name:this.from})
+      this.$router.push({path:`/${this.from}`})
     }
   },
   created() {
