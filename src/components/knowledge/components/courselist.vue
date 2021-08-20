@@ -1,6 +1,10 @@
 <template>
   <div class="info_list">
-    <div class="item" v-for="item in dataList" :key="item.CourseID">
+    <div class="item" 
+      v-for="item in dataList" 
+      :key="item.CourseID"
+      @click="handleitem(item)"
+    >
       <div class="inf">
         <p class="tit">{{item.Name}}</p>
         <p class="see">{{item.BrowseNum}}人看过</p>
@@ -28,7 +32,11 @@ export default {
   },
   watch: {},
   computed: {},
-  methods: {},
+  methods: {
+    handleitem(item){
+      this.$router.push({path:'/course-info',query: {courseID:item.CourseID,from:'knowledge'}})
+    }
+  },
   created() {},
   mounted() {}
 };

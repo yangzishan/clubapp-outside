@@ -1,14 +1,14 @@
 <template>
   <div class="nav-list">
-    <p class="li" :class="{on:styleLight == onlight}" @click="choseAll">全部</p>
-    <p class="li" 
+    <button class="li" :class="{on:styleLight == onlight}" @click="choseAll">全部</button>
+    <button class="li" 
       v-for="item in dataList" 
       :key="item.CommonTypeID"
       @click="handleClass(item.CommonTypeID)"
       :class="{on:styleLight == item.CommonTypeID}"
     >
       {{item.Name}}
-    </p>
+    </button>
   </div>
 </template>
 
@@ -23,7 +23,7 @@ export default {
       }
     },
     onlight:{
-      type: Number,
+      type: [Number,String],
       default() {
         return 0;
       }
@@ -47,21 +47,27 @@ export default {
     }
   },
   created() {
-    console.log(this.onlight)
+    //console.log(this.onlight)
     this.styleLight = this.onlight
   },
   mounted() {}
 };
 </script>
 <style lang="scss" scoped>
+button{ margin: 0; padding: 0; border: 0; background: 0;}
 .nav-list{
   width: 1.8rem;
-  p.li{ 
-    // height: 1rem; 
+  .li{ 
+    width: 100%;
+    text-align: left;
     padding: .3rem .2rem .3rem; line-height: .4rem; 
     font-size: .28rem; color: #666666;
     border-bottom:#f2f2f2 solid .01rem;
   }
-  p.on{ background: #ffffff; color: #333333; font-weight: 600;}
+  .on{ 
+    background: #ffffff url(../../../assets/border-left-bj.png) no-repeat left center;
+    background-size: .1rem 100%; 
+    color: #333333; font-weight: 600;
+    }
 }
 </style>

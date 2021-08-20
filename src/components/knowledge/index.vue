@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <!-- <kheader></kheader> -->
-    <my-header :title="headTitle"></my-header>
+    <my-header :title="headTitle" @goBack="goBack"></my-header>
     <div class="mainContent">
       <div class="c_left">
         <scroll
@@ -26,8 +26,8 @@
           @scrollToEnd="scrollToEnd"
         >
           <courselist :dataList="courseList"></courselist>
-          <defaultpage :type="tiptype" v-if="courseList.length == 0"></defaultpage>
-          <loading v-show="hasMore"></loading>
+          <defaultpage :type="tiptype" v-show="defaultpageshow"></defaultpage>
+          <loading v-show="hasMore || tabclassing || searching"></loading>
           <no-more v-if="!hasMore && courseList.length"></no-more>
         </scroll>
       </div>
@@ -66,7 +66,10 @@ export default {
       keyword:'',
       tiptype: 0,
       tabclassing: false, //正在切换类
-      searching: false //正在搜索
+      searching: false, //正在搜索
+      defaultpageshow: false,
+      from:'',
+      nextTryAgain: true //防止连续快速点击发送重复请求
     };
   },
   watch: {},
@@ -83,27 +86,26 @@ export default {
     toSearch(str){
       this.keyword = str;
       this.pageIndex = 1;
-      this.courseClassifyID = this.parentId;
-      //this.courseList = []
+      this.courseList = [];
       this.searching = true;
-      this._GetCourseList()
-      setTimeout(() => {
-        this.tiptype = 3
-      }, 1000);
+      this.defaultpageshow = false;
+      this.tiptype = 3;
     },
     choseClass(id){
       this.courseClassifyID = id;
       this.pageIndex = 1;
       this.keyword = '';
-      //this.courseList = []
-      this.tabclassing = true;
-      this._GetCourseList();
       this.$refs.sousuo.clearWord();
-      setTimeout(() => {
-        this.tiptype = 0
-      }, 1000);
+      this.courseList = [];
+      this.tabclassing = true;
+      this.defaultpageshow = false;
+      this.tiptype = 0;
+      if(this.nextTryAgain){
+        this._GetCourseList();
+      }
     },
     async _GetCourseList() {
+      this.nextTryAgain = false;
       const { Code, Data, Count } = await GetCourseList({
         pageIndex: this.pageIndex,
         pageSize: PAGESIZE,
@@ -120,6 +122,8 @@ export default {
         this.tabclassing = false;
         this.searching = false;
         this.hasMore = this.courseList.length < Count ? true : false;
+        this.defaultpageshow = this.courseList.length == 0 ? true : false;
+        this.nextTryAgain = true;
       }
     },
     scrolling(pos){
@@ -140,11 +144,15 @@ export default {
         this.pageIndex++;
         this._GetCourseList();
       }
+    },
+    goBack(){
+      this.$router.push({name:this.from})
     }
   },
   created() {
     this.headTitle = (this.$route.query.title || '健康知识') // 等传值
-    this.parentId = (this.$route.query.parentId || 0) // 1615 等传值
+    this.parentId = (this.$route.query.ParentID || 1616) // 1615 等传值
+    this.from = (this.$route.query.from || 'clubhome') // 1615 等传值
     this.courseClassifyID = this.parentId 
     this._GetClassChildByInfoParentID();
     this._GetCourseList()

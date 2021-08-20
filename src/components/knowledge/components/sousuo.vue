@@ -37,7 +37,8 @@ export default {
 .sousuo{display: flex; display:  -webkit-flex;
   height: 1rem;
   padding: .3rem .3rem 0; font-size: 0;
-  .int{ width: 4.38rem;height: .6rem;border: 1px solid #E9E9E9; 
+  .int{ flex: 1; -webkit-flex:1; 
+    height: .6rem;border: 1px solid #E9E9E9; 
     border-radius: .3rem;
     display: flex; display:  -webkit-flex;
     .icon-search{width: .6rem; height: .6rem;
@@ -52,7 +53,7 @@ export default {
       background-size: .3rem .3rem;
     }        
   }
-  .btn{ display: inline-block; vertical-align: top; 
+  .btn{ display: inline-block; vertical-align: top; width: .72rem;
     text-align: center; line-height: .6rem; font-size: .26rem; padding: 0 .1rem;
   }
 }
